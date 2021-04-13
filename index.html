@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Version Control</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="fonts.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <script src="js/break_eternity.min.js" defer></script>
+    <script src="js/helpers.js" defer></script>
+    <script src="js/classes/expensive.js" defer></script>
+    <script src="js/classes/player.js" defer></script>
+    <script src="js/classes/dimension.js" defer></script>
+    <script src="js/classes/tickspeed.js" defer></script>
+    <script src="js/classes/automation.js" defer></script>
+    <script src="js/classes/lootbox.js" defer></script>
+    <script src="js/classes/hero.js" defer></script>
+    <script src="js/classes/action.js" defer></script>
+    <script src="js/classes/infinityUpgrade.js" defer></script>
+    <script src="js/functions/newsticker.js" defer></script>
+    <script src="js/functions/tabs.js" defer></script>
+    <script src="js/functions/dimshift.js" defer></script>
+    <script src="js/functions/dimboost.js" defer></script>
+    <script src="js/functions/getxp.js" defer></script>
+    <script src="js/functions/dimsac.js" defer></script>
+    <script src="js/functions/galaxy.js" defer></script>
+    <script src="js/functions/actions.js" defer></script>
+    <script src="js/functions/infinity.js" defer></script>
+    <script src="js/data/versions.js" defer></script>
+    <script src="js/data/newstickers.js" defer></script>
+    <script src="js/gameLoop.js" defer></script>
+    <script src="js/screenUpdate.js" defer></script>
+    <script src="js/processTimedelta.js" defer></script>
+    <script src="js/updateVersion.js" defer></script>
+    <script src="js/formatNumber.js" defer></script>
+    <script src="js/windows.js" defer></script>
+    <script src="js/loadup.js" defer></script>
+    <script src="js/saveload.js" defer></script>
+    <script src="js/main.js" defer></script>
+    <script src="js/hotkeys.js" defer></script>
+  </head>
+  <body>
+    <div class="app">
+      <div class="newsticker">
+        <p class="news"></p>
+      </div>
+      <div class="version-control">
+        <div>
+          <p class="title">Version</p>
+          <p class="title second-line">Control</p>
+        </div>
+      </div>
+      <div class="main">
+        <div class="update">
+          <button class="version-update" onclick="updateVersion()">
+            <p class="title">Update to the version <span class="next-version"></span></p>
+            <p>Need <span class="limit"></span> <span class="points-capitalized"></span> Points</p>
+          </button>
+          <div class="changelog">
+            <p class="title">Changelog</p>
+            <p><span class="next-version-name-full"></span> (<span class="next-version-date"></span>)</p>
+            <p>- Renamed <b><span class="points-capitalized"></span> Dimensions</b> to <b><span class="next-version-points-capitalized"></span> Dimensions</b>.</p>
+            <p class="changes"></p>
+          </div>
+        </div>
+        <p class="point-display">You have <span class="points"></span> <span class="points-capitalized"></span> Points</p>
+        <div class="menu">
+          <button class="btn-dimensions" onclick="switchTab('dimensions')" disabled>
+            <p>Dimensions</p>
+          </button>
+          <button class="btn-automation" onclick="switchTab('automation')">
+            <p>Automation</p>
+          </button>
+          <button class="btn-heroes" onclick="switchTab('heroes')">
+            <p>Heroes</p>
+          </button>
+          <button class="btn-actions" onclick="switchTab('actions')">
+            <p>Actions</p>
+          </button>
+          <button class="btn-infinity" onclick="switchTab('infinity')">
+            <p>Infinity</p>
+          </button>
+          <button class="btn-settings" onclick="switchTab('settings')">
+            <p>Settings</p>
+          </button>
+        </div>
+        <div class="tab tab-dimensions">
+          <button class="get-a-point" onclick="player.points = player.points.add(1)">
+            <p>Get a <span class="points-capitalized"></span> Point</p>
+          </button>
+          <div class="tickspeed">
+            <p class="title">Tickspeed: <span class="effect"></span>/s</p>
+            <div>
+              <button class="buy" onclick="player.tickspeed.buy()">
+                <p class="cost"></p>
+              </button>
+              <button class="buy-max" onclick="player.tickspeed.buyMax()">
+                <p>Buy max (T)</p>
+              </button>
+            </div>
+            <p class="note">Each Tickspeed Upgrade increases tickspeed by <span class="effect-one"></span>%</p>
+          </div>
+          <div class="button-row">
+            <button class="dimsac" onclick="dimsac()">
+              <p>Dimensional Sacrifice ×<span class="result">1.000</span> (S)</p>
+            </button>
+            <div class="delimiter"></div>
+            <button class="buy-max-dim" onclick="for (let i = 0; i < player.dimensions.length; i++) player.dimensions[i].buyMax()">
+              <p>Buy max (M)</p>
+            </button>
+          </div>
+          <div class="dimensions">
+          </div>
+          <div class="dim-resets">
+            <button class="dim-shift" onclick="performDimshift()">
+              <p class="title">Dimension Shift</p>
+              <p class="desc">Unlock an additional dimension</p>
+              <p>Need <span class="dim-shift-req"></span> <span class="dim-shift-level"></span>th <span class="points-capitalized"></span> Dimensions</p>
+            </button>
+            <button class="dim-boost" onclick="performDimboost()">
+              <p class="title">Dimension Boost</p>
+              <p class="desc">×2 to all dimensions</p>
+              <p>Need <span class="dim-boost-req"></span> <span class="dim-boost-level"></span>th <span class="points-capitalized"></span> Dimensions</p>
+            </button>
+            <button class="galaxy" onclick="performGalaxy()">
+              <p class="title"><span class="points-capitalized"></span> Galaxy</p>
+              <p class="desc">+2% to Tickspeed Upgrade power</p>
+              <p>Need <span class="galaxy-req"></span> <span class="galaxy-level"></span>th <span class="points-capitalized"></span> Dimensions</p>
+            </button>
+          </div>
+        </div>
+        <div class="tab tab-automation" style="display:none">
+          <div class="autobuyers">
+          </div>
+        </div>
+        <div class="tab tab-heroes" style="display:none">
+          <div class="heroes-xp-bar">
+            <div>
+              <p class="title">You have <span class="xp"></span> XP</p>
+              <p class="desc">Gain <span class="xp-gained"></span> more at <span class="xp-req"></span> <span class="points-capitalized"></span> Points</p>
+            </div>
+            <button class="get-xp-button" onclick="getXP()">
+              <p class="get-xp"></p>
+            </button>
+          </div>
+          <div class="lootboxes">
+          </div>
+          <div class="heroes">
+            <p class="section section-common">Common: <span class="amount"></span>/<span class="total"></span></p>
+            <p class="section section-uncommon">Uncommon: <span class="amount"></span>/<span class="total"></span></p>
+            <p class="section section-rare">Rare: <span class="amount"></span>/<span class="total"></span></p>
+            <p class="section section-legendary">Legendary: <span class="amount"></span>/<span class="total"></span></p>
+          </div>
+        </div>
+        <div class="tab tab-actions" style="display:none">
+          <div class="actions-current">
+            <div class="actions-container">
+              <div class="refreshing">
+                <p>Refreshes in</p>
+                <div class="spinner-outer">
+                  <div class="spinner-inner">
+                    <p class="remaining">30</p>
+                  </div>
+                </div>
+              </div>
+              <div class="resources">
+                <p class="res-actions">Actions left: <span class="free"></span>/<span class="total"></span></p>
+                <p class="res-locks">Locks: <span class="free"></span>/<span class="total"></span></p>
+              </div>
+              <div class="actions">
+              </div>
+            </div>
+            <div class="action-items">
+            </div>
+            <div class="action-upgrades">
+              <button class="upgrade" id="action_upgrade_0" onclick="actionBuy(0)">
+                <p>Get an additional Action</p>
+                <div class="delimiter"></div>
+                <p class="cost"></p>
+              </button>
+              <button class="upgrade" id="action_upgrade_1" onclick="actionBuy(1)">
+                <p>Get an additional Lock</p>
+                <div class="delimiter"></div>
+                <p class="cost"></p>
+              </button>
+              <button class="upgrade" id="action_upgrade_2" onclick="actionBuy(2)">
+                <p>Actions are better</p>
+                <div class="delimiter"></div>
+                <p class="cost"></p>
+              </button>
+              <button class="upgrade" id="action_upgrade_3" onclick="actionBuy(3)">
+                <p>Unlock <span class="next-unlock"></span></p>
+                <div class="delimiter"></div>
+                <p class="cost"></p>
+              </button>
+            </div>
+          </div>
+          <div class="level-bar bar-dimensions">
+            <div class="text-row">
+              <p>Dimensions: Level <span class="level"></span></p>
+              <p>DP: <span class="xp"></span>/<span class="xp-req"></span></p>
+            </div>
+            <p class="desc">Each level gives +100% to all <span class="points-capitalized"></span> Dimensions production (additive)</p>
+            <div class="progress">
+              <div class='progress-filled'></div>
+            </div>
+          </div>
+          <div class="level-bar bar-heroes">
+            <div class="text-row">
+              <p>Heroes: Level <span class="level"></span></p>
+              <p>HP: <span class="xp"></span>/<span class="xp-req"></span></p>
+            </div>
+            <p class="desc">Each level gives +10% Heroes in <span class='lootbox-class'></span>es (additive, rounded down)</p>
+            <div class="progress">
+              <div class='progress-filled'></div>
+            </div>
+          </div>
+        </div>
+        <div class="tab tab-infinity" style="display:none">
+          <p class="ip-title">You have <span class="infinity-points"></span> Infinity Points</p>
+          <button class="infinity-btn" onclick="performInfinity()">
+            <p class="cannot-infinity">Need <span class="reset-need"></span> <span class="points-capitalized"></span> Points</p>
+            <div class="can-infinity">
+              <p>Reset for <span class="reset-gain"></span> Infinity Points</p>
+              <p class="desc">Next at <span class="reset-need"></span> <span class="points-capitalized"></span> Points</p>
+            </div>
+          </button>
+          <div class="infinity-upgrades-outer">
+            <div class="infinity-upgrades">
+            </div>
+          </div>
+        </div>
+        <div class="tab tab-settings" style="display:none">
+          <div class="setting notation">
+            <p class="title">Notation</p>
+            <p></p>
+            <label class="option"><input type="radio" name="notation" checked onchange="player.settings['notation'] = 'default'"><p>Default</p></label>
+            <label class="option"><input type="radio" name="notation" onchange="player.settings['notation'] = 'emoji'"><p>Emoji</p></label>
+          </div>
+          <div class="setting newstickers">
+            <label class="option"><input type="checkbox" name="newsticker" checked onchange="player.settings['newsticker'] = this.checked"><p>Show newsticker</p></label>
+          </div>
+          <div class="setting lootbox-opening">
+            <label class="option"><input type="checkbox" name="lootbox-opening" checked onchange="player.settings['lootbox-opening'] = this.checked"><p><span class='lootbox-class'></span> opening window</p></label>
+          </div>
+          <div class="setting saves">
+            <button onclick="document.getElementsByClassName('export-string')[0].value = getSave(); openWindow('game_export');">
+              <p>Export save</p>
+            </button>
+            <button onclick="document.getElementsByClassName('import-string')[0].value = ''; openWindow('game_import');">
+              <p>Import save</p>
+            </button>
+            <p></p>
+            <button class="hard-reset" onclick="openWindow('game_reset')">
+              <p>Hard Reset</p>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="credits">
+        <p>Check my other game, <a href="http://semenar.ru/matter-dim-test" target="_blank">Matter Dimensions</a>.</p>
+      </div>
+    </div>
+    <div class="window" type="lootbox_contents" style="display: none">
+      <div class="inner-window">
+        <p class="title">In the <span class="lootbox-name"></span> <span class='lootbox-class'></span>, you found the following heroes:</p>
+        <div class="lootbox-hero-container-outer">
+          <div class="lootbox-hero-container">
+          </div>
+        </div>
+        <button class="exit-btn lootbox-exit-btn" onclick="closeWindow()">Proceed</button>
+      </div>
+    </div>
+    <div class="window" type="ad" style="display: none">
+      <div class="inner-window ad-window">
+        <p class="title">Please wait, we are loading the advertisement...</p>
+        <p class="desc">Sorry, we were unable to load an advertisement.<br>Please accept 5 XP for your wait!</p>
+        <div class="delimiter"></div>
+        <div class="loading">
+          <div class="loading-inner">
+          </div>
+        </div>
+        <p class="reward">
+          +<span class="reward-amount">5</span> XP
+        </p>
+        <div class="delimiter"></div>
+        <button class="exit-btn ad-exit-btn" onclick="closeWindow()">Proceed</button>
+      </div>
+    </div>
+    <div class="window" type="win" style="display: none">
+      <div class="inner-window">
+        <p class="title">Congratulations! You have beaten the game!</p>
+        <p class="desc">You can continue playing, if you want.<br>Your total playtime is:</p>
+        <div class="delimiter"></div>
+        <p class="time-spent"><span class="normal-time-spent"></span><span class="speedrun-time-spent"></span></p>
+        <div class="delimiter"></div>
+        <button class="exit-btn" onclick="closeWindow()">Continue</button>
+      </div>
+    </div>
+    <div class="window" type="game_export" style="display: none">
+      <div class="inner-window">
+        <p class="title">Here is your save string:</p>
+        <textarea class="export-string" autocomplete="off" readonly>
+        </textarea>
+        <button class="exit-btn" onclick="closeWindow()">Close</button>
+      </div>
+    </div>
+    <div class="window" type="game_import" style="display: none">
+      <div class="inner-window">
+        <p class="title">Paste your save string into the box below:</p>
+        <textarea class="import-string" autocomplete="off">
+        </textarea>
+        <button class="exit-btn import-exit-btn" onclick="loadSave(document.getElementsByClassName('import-string')[0].value); closeWindow()">Import save</button>
+        <button class="exit-btn" onclick="closeWindow()">Close</button>
+      </div>
+    </div>
+    <div class="window" type="game_reset" style="display: none">
+      <div class="inner-window">
+        <p class="title">Are you sure you want to perform a Hard Reset?</p>
+        <p class="desc">This action is irreversible!</p>
+        <div class="delimiter"></div>
+        <button class="exit-btn reset-exit-btn" onclick="hardReset(); closeWindow()">Hard Reset</button>
+        <button class="exit-btn" onclick="closeWindow()">Close</button>
+      </div>
+    </div>
+  </body>
+</html>

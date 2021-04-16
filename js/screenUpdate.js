@@ -192,16 +192,12 @@ function screenUpdate(delta) {
   else document.getElementsByClassName("tickspeed")[0].style.display = "none";
   if (player.current_version >= 4) document.getElementsByClassName("tickspeed")[0].getElementsByClassName("buy-max")[0].style.display = "";
   else document.getElementsByClassName("tickspeed")[0].getElementsByClassName("buy-max")[0].style.display = "none";
-  if (player.current_version >= 5) document.getElementsByClassName("btn-dimensions")[0].style.display = "";
-  else document.getElementsByClassName("btn-dimensions")[0].style.display = "none";
   if (player.current_version >= 5) document.getElementsByClassName("btn-automation")[0].style.display = "";
   else document.getElementsByClassName("btn-automation")[0].style.display = "none";
   if (player.current_version >= 6) document.getElementsByClassName("buy-max-dim")[0].style.display = "";
   else document.getElementsByClassName("buy-max-dim")[0].style.display = "none";
   if (player.current_version >= 12) document.getElementsByClassName("btn-heroes")[0].style.display = "";
   else document.getElementsByClassName("btn-heroes")[0].style.display = "none";
-  if (player.current_version >= 12) document.getElementsByClassName("btn-settings")[0].style.display = "";
-  else document.getElementsByClassName("btn-settings")[0].style.display = "none";
   if (player.current_version >= 13) document.getElementsByClassName("dimsac")[0].style.display = "";
   else document.getElementsByClassName("dimsac")[0].style.display = "none";
   if (player.current_version >= 14) document.getElementsByClassName("get-xp-button")[0].style.display = "";
@@ -216,6 +212,8 @@ function screenUpdate(delta) {
   else document.getElementsByClassName("btn-infinity")[0].style.display = "none";
 
   // unlocked settings
+  if (player.current_version >= 12) document.getElementsByClassName("tab-settings")[0].getElementsByClassName("notation")[0].style.display = "";
+  else document.getElementsByClassName("tab-settings")[0].getElementsByClassName("notation")[0].style.display = "none";
   if (player.current_version >= 13) document.getElementsByClassName("tab-settings")[0].getElementsByClassName("newstickers")[0].style.display = "";
   else document.getElementsByClassName("tab-settings")[0].getElementsByClassName("newstickers")[0].style.display = "none";
   if (player.current_version >= 17) document.getElementsByClassName("tab-settings")[0].getElementsByClassName("lootbox-opening")[0].style.display = "";

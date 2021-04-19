@@ -2,16 +2,16 @@ var LOCAL_STORAGE_NAME = "semenar.versioncontrol";
 
 function saveToLocalStorage() {
   try {
-    localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(player.save()));
+    window.localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(player.save()));
   }
   catch (e) {}
 }
 
 function loadFromLocalStorage() {
-  if (localStorage.getItem(LOCAL_STORAGE_NAME) === null) return;
+  if (window.localStorage.getItem(LOCAL_STORAGE_NAME) === null) return;
   let backup = player.save();
   try {
-    player.load(JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME)));
+    player.load(JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_NAME)));
     switchTab('dimensions');
   }
   catch (e) { player.load(backup); }
@@ -31,7 +31,7 @@ function loadSave(save) {
 }
 
 function hardReset() {
-  localStorage.removeItem(LOCAL_STORAGE_NAME);
+  window.localStorage.removeItem(LOCAL_STORAGE_NAME);
   player.reset();
   cleanUp();
   loadUp();

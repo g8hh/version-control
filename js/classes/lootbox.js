@@ -243,6 +243,7 @@ class Lootbox {
     let container = document.getElementById('lootbox_' + this.type);
 
     if ('lootboxexp' in player.infinity_upgrades && player.infinity_upgrades['lootboxexp'].bought && this.type != "final") container.style.display = "none";
+    else container.style.display = "";
 
     container.disabled = !this.canBuy();
 

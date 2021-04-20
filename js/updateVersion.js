@@ -55,25 +55,7 @@ function updateVersion() {
 
   player.total_dimsac = D(0);
 
-  player.time_to_action_refresh = ACTION_REFRESH_TIME;
-
-  player.dimensions_level = 0;
-  player.dimensions_xp = 0;
-  player.heroes_level = 0;
-  player.heroes_xp = 0;
-
   for (let i = player.actions.length; i < 6; i++) player.actions.push(new Action(i));
-  for (let i = 0; i < 6; i++) player.actions[i].generateAction();
-
-  player.action_upgrades = [0, 0, 0, 0];
-
-  player.action_resources = {};
-  for (let key of ACTION_RESOURCES) {
-    player.action_resources[key] = 0;
-  }
-
-  player.free_actions = 1;
-  player.free_locks = 0;
 
   player.infinity_points = D(0);
 
